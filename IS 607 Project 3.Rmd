@@ -1,0 +1,26 @@
+---
+title: "project 3"
+author: "sanjivek"
+date: "October 18, 2015"
+output: html_document
+---
+
+
+```{r}
+library(rvest)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(sqldf)
+library(stringr)
+
+read_csv<-read.csv("https://raw.githubusercontent.com/pm0kjp/IS607_Project3/master/data/best_editing_picture.csv",header=TRUE,sep=",")
+oscarTable<-gather(read_csv,"won","pictures",3:4)
+oscarTable<- data.frame(spread(oscarTable,won,won))
+colnames(oscarTable)=c("Oscar_Num","Oscar_Year","Pictures","Best_Edit_Winner","Best_picture_Winner")
+oscarTable$Best_Edit_Winner=str_replace_all(oscarTable$Best_Edit_Winner,pattern="Best_Editing","Yes")
+oscarTable$Best_picture_Winner=str_replace_all(oscarTable$Best_picture_Winner,pattern="Best_Picture","Yes")
+oscarTable[is.na(oscarTable)] <- "No"
+oscarTable
+```
+
